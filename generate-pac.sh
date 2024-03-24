@@ -70,7 +70,7 @@ function unlzp(d, m, lim) {
   var mask = 0, maskpos = 0, dpos = 0, out = Array(8), outpos = 0, outfinal = '';
 
   for (;;) {
-    mask = m[maskpos++];
+    mask = m.charAt(maskpos++);
     if (!mask)
       break
     mask = mask.charCodeAt(0);
@@ -79,7 +79,7 @@ function unlzp(d, m, lim) {
       if (mask & (1 << i)) {
         c = table[hash];
       } else {
-        c = d[dpos++];
+        c = d.charAt(dpos++);
         if (!c)
           break
         c = c.charCodeAt(0);
