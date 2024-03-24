@@ -179,7 +179,7 @@ echo "  if (domains.length < 10) return \"DIRECT\"; // list is broken
 cp "$PACFILE" "$PACFILE_NOSSL"
 
 echo "
-  fbtw = ['twitter.com', 'twimg.com', 't.co',
+  fbtw = ['twitter.com', 'twimg.com', 't.co', 'x.com',
           'facebook.com', 'fbcdn.net',
           'instagram.com', 'cdninstagram.com',
           'fb.com', 'messenger.com',
