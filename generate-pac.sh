@@ -18,6 +18,8 @@ echo "// ProstoVPN.AntiZapret PAC-host File
 " >> "$PACFILE"
 
 awk -f scripts/generate-pac-domains.awk result/hostlist_zones.txt >> "$PACFILE"
+awk -v lzp=1 -f scripts/generate-pac-domains.awk result/hostlist_zones.txt > temp/domains-oneline.txt
+python3 scripts/lzp.py temp/domains-oneline.txt temp/domains-oneline-data.txt temp/domains-oneline-mask.txt temp/domains-oneline-pac.js
 
 # Collapse IP list
 scripts/collapse_blockedbyip_noid2971.py
@@ -30,20 +32,71 @@ SPECIAL="$(cat result/iplist_special_range.txt | xargs -n1 sipcalc | \
     awk 'BEGIN {notfirst=0} /Network address/ {n=$4} /Network mask \(bits\)/ {if (notfirst) {printf ","} printf "[\"%s\", %s]", n, $5; notfirst=1;}')"
 
 PATTERNS=$(cat temp/pacpatterns.js)
+PATTERNS_LZP=$(cat temp/domains-oneline-pac.js)
+DOMAINS_LZP=$(cat temp/domains-oneline-data.txt)
+MASK_LZP=$(cat temp/domains-oneline-mask.txt)
 
 echo "var special = [
 $SPECIAL
 ];
+
+// domain name data encoded with LZP, without mask data
+var domains_lzp = \"$DOMAINS_LZP\";
+
+// LZP mask data, b64+patternreplace
+var mask_lzp = \"$MASK_LZP\";
+
 var az_initialized = 0;
 // CIDR to netmask, for special
 function nmfc(b) {var m=[];for(var i=0;i<4;i++) {var n=Math.min(b,8); m.push(256-Math.pow(2, 8-n)); b-=n;} return m.join('.');}
 // replace repeating sequences in domain
-function patternreplace(s) {
+function patternreplace(s, lzpmask) {
   var patterns = $PATTERNS;
+  if (lzpmask)
+   var patterns = $PATTERNS_LZP;
   for (pattern in patterns) {
     s = s.split(patterns[pattern]).join(pattern);
   }
   return s;
+}
+// LZP as in PPP, different hash func
+function unlzp(d, m) {
+  var TABLE_LEN_BITS = 18;
+  var HASH_MASK = (1 << TABLE_LEN_BITS) - 1;
+  var hash = 0, mask = 0, maskpos = 0, dpos = 0, table = Array(1 << TABLE_LEN_BITS), out = Array(8), outpos = 0, outfinal = '';
+
+  for (;;) {
+    mask = m[maskpos++];
+    if (!mask)
+      break
+    mask = mask.charCodeAt(0);
+    outpos = 0;
+    for (var i = 0; i < 8; i++) {
+      if (mask & (1 << i)) {
+        c = table[hash];
+      } else {
+        c = d[dpos++];
+        if (!c)
+          break
+        c = c.charCodeAt(0);
+        table[hash] = c;
+      }
+      out[outpos++] = String.fromCharCode(c);
+      hash = ( (hash << 7) ^ c ) & HASH_MASK
+    }
+    if (outpos == 8)
+      outfinal += out.join('');
+  }
+  if (outpos < 8)
+    outfinal += out.slice(0, outpos).join('');
+  return outfinal;
+}
+
+function a2b(a) {
+  var b, c, d, e = {}, f = 0, g = 0, h = \"\", i = String.fromCharCode, j = a.length;
+  for (b = 0; 64 > b; b++) e[\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/\".charAt(b)] = b;
+  for (c = 0; j > c; c++) for (b = e[a.charAt(c)], f = (f << 6) + b, g += 6; g >= 8; ) ((d = 255 & f >>> (g -= 8)) || j - 2 > c) && (h += i(d));
+  return h;
 }
 
 function FindProxyForURL(url, host) {" >> "$PACFILE"
@@ -73,6 +126,19 @@ echo "  if (domains.length < 10) return \"DIRECT\"; // list is broken
 
     for (var i = 0; i < special.length; i++) {
      special[i][1] = nmfc(special[i][1]);
+    }
+
+    mask_lzp = patternreplace(mask_lzp, true);
+    mask_lzp = a2b(mask_lzp);
+    domains_lzp = unlzp(domains_lzp, mask_lzp);
+    mask_lzp = 0;
+
+    for (dmn in domains) {
+     for (dcnt in domains[dmn]) {
+      dmnl = domains[dmn][dcnt];
+      domains[dmn][dcnt] = domains_lzp.slice(0, dmnl);
+      domains_lzp = domains_lzp.slice(dmnl);
+     }
     }
 
     az_initialized = 1;
@@ -105,7 +171,7 @@ echo "
   if (!curdomain || !curdomain[2]) {return \"DIRECT\";}
   var curhost = curdomain[1];
   var curzone = curdomain[2];
-  curhost = patternreplace(curhost);
+  curhost = patternreplace(curhost, false);
   var curarr = []; // dummy empty array
   if (domains.hasOwnProperty(curzone) && domains[curzone].hasOwnProperty(curhost.length)) {
     if (typeof domains[curzone][curhost.length] === 'string') {
