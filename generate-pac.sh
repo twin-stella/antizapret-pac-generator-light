@@ -60,10 +60,14 @@ function patternreplace(s, lzpmask) {
   return s;
 }
 // LZP as in PPP, different hash func
-function unlzp(d, m) {
+var TABLE_LEN_BITS = 18;
+var HASH_MASK = (1 << TABLE_LEN_BITS) - 1;
+var table = Array(1 << TABLE_LEN_BITS);
+var hash = 0;
+function unlzp(d, m, lim) {
   var TABLE_LEN_BITS = 18;
   var HASH_MASK = (1 << TABLE_LEN_BITS) - 1;
-  var hash = 0, mask = 0, maskpos = 0, dpos = 0, table = Array(1 << TABLE_LEN_BITS), out = Array(8), outpos = 0, outfinal = '';
+  var mask = 0, maskpos = 0, dpos = 0, out = Array(8), outpos = 0, outfinal = '';
 
   for (;;) {
     mask = m[maskpos++];
@@ -86,10 +90,11 @@ function unlzp(d, m) {
     }
     if (outpos == 8)
       outfinal += out.join('');
+    if (outfinal.length >= lim) break;
   }
   if (outpos < 8)
     outfinal += out.slice(0, outpos).join('');
-  return outfinal;
+  return [outfinal, dpos, maskpos];
 }
 
 function a2b(a) {
@@ -128,19 +133,37 @@ echo "  if (domains.length < 10) return \"DIRECT\"; // list is broken
      special[i][1] = nmfc(special[i][1]);
     }
 
-    mask_lzp = patternreplace(mask_lzp, true);
-    mask_lzp = a2b(mask_lzp);
-    domains_lzp = unlzp(domains_lzp, mask_lzp);
-    mask_lzp = 0;
+    mask_lzp = a2b(patternreplace(mask_lzp, true));
 
+    var leftover = '';
     for (dmn in domains) {
      for (dcnt in domains[dmn]) {
       dmnl = domains[dmn][dcnt];
-      domains[dmn][dcnt] = domains_lzp.slice(0, dmnl);
-      domains_lzp = domains_lzp.slice(dmnl);
+      if (leftover.length < dmnl) {
+       var reqd = (dmnl<=8192 ? 8192 : dmnl);
+       var u = unlzp(domains_lzp, mask_lzp, reqd);
+       domains_lzp = domains_lzp.slice(u[1]);
+       mask_lzp = mask_lzp.slice(u[2]);
+       leftover += u[0]
+       u = 0
+       //console.log('Requested ' + reqd);
+       //if (reqd > leftover.length) {alert('requested ' + reqd + ' got ' + leftover.length);}
+      }
+
+      if (leftover.length >= dmnl) {
+       domains[dmn][dcnt] = leftover.slice(0, dmnl);
+       leftover = leftover.slice(dmnl);
+       if (domains[dmn][dcnt].length != dmnl) alert('ERR 1!');
+       continue;
+      } else {
+       alert('ERR 3');
+       break;
+      }
+      if (domains[dmn][dcnt].length != dmnl) alert('ERR 2');
      }
     }
 
+    table = 0;
     az_initialized = 1;
   }
 
