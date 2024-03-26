@@ -65,8 +65,6 @@ var HASH_MASK = (1 << TABLE_LEN_BITS) - 1;
 var table = Array(1 << TABLE_LEN_BITS);
 var hash = 0;
 function unlzp(d, m, lim) {
-  var TABLE_LEN_BITS = 18;
-  var HASH_MASK = (1 << TABLE_LEN_BITS) - 1;
   var mask = 0, maskpos = 0, dpos = 0, out = Array(8), outpos = 0, outfinal = '';
 
   for (;;) {
@@ -144,22 +142,14 @@ echo "  if (domains.length < 10) return \"DIRECT\"; // list is broken
        var u = unlzp(domains_lzp, mask_lzp, reqd);
        domains_lzp = domains_lzp.slice(u[1]);
        mask_lzp = mask_lzp.slice(u[2]);
-       leftover += u[0]
-       u = 0
-       //console.log('Requested ' + reqd);
-       //if (reqd > leftover.length) {alert('requested ' + reqd + ' got ' + leftover.length);}
+       leftover += u[0];
+       u = 0;
+       //if (reqd > leftover.length) alert('requested ' + reqd + ' got ' + leftover.length);
       }
 
-      if (leftover.length >= dmnl) {
-       domains[dmn][dcnt] = leftover.slice(0, dmnl);
-       leftover = leftover.slice(dmnl);
-       if (domains[dmn][dcnt].length != dmnl) alert('ERR 1!');
-       continue;
-      } else {
-       alert('ERR 3');
-       break;
-      }
-      if (domains[dmn][dcnt].length != dmnl) alert('ERR 2');
+      domains[dmn][dcnt] = leftover.slice(0, dmnl);
+      leftover = leftover.slice(dmnl);
+      //if (domains[dmn][dcnt].length != dmnl) alert('ERR 1');
      }
     }
 
