@@ -26,7 +26,8 @@ awk -f scripts/getzones.awk temp/hostlist_original_with_include.txt | grep -v -F
 
 if [[ "$RESOLVE_NXDOMAIN" == "yes" ]];
 then
-    timeout 2h scripts/resolve-dns-nxdomain.py result/hostlist_zones.txt >> temp/exclude-hosts.txt
+    timeout 2h scripts/resolve-dns-nxdomain.py result/hostlist_zones.txt > temp/nxdomain-exclude-hosts.txt
+    cat temp/nxdomain-exclude-hosts.txt >> temp/exclude-hosts.txt
     awk -f scripts/getzones.awk temp/hostlist_original_with_include.txt | grep -v -F -x -f temp/exclude-hosts.txt | sort -u > result/hostlist_zones.txt
 fi
 
