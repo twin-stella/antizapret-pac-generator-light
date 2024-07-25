@@ -315,6 +315,65 @@
 /^bet/ {next}
 /^bonus/ {next}
 
+# 25.07.2024
+/^100/ {next}
+/^1win/ {next}
+/^1-win/ {next}
+/^1xb/ {next}
+/^1-xb/ {next}
+/^7k-/ {next}
+/^adm/ {next}
+/^advokat/ {next}
+/^agent/ {next}
+/^aitfin/ {next}
+/^ai-/ {next}
+/^alepox/ {next}
+/^alextra/ {next}
+/^alletoper/ {next}
+/^allserial/ {next}
+/^allsteroid/ {next}
+/^allxrtgof/ {next}
+/^alrafiofs/ {next}
+/^amarket/ {next}
+/^anomiks/ {next}
+/^answer/ {next}
+/^apl.*\.me$/ {next}
+/^aqua/ {next}
+/^argo/ {next}
+/^arteif/ {next}
+/^ashoo/ {next}
+/^astellia/ {next}
+/^athletic/ {next}
+/^binarium/ {next}
+/^bitstar/ {next}
+/^bkleon/ {next}
+/^block4/ {next}
+/^bo11y/ {next}
+/^bollywood/ {next}
+/^bomdogmas/ {next}
+/^bomobd/ {next}
+/^bs2/ {next}
+/^crystal/ {next}
+/^daclatasvir/ {next}
+/^djplom/ {next}
+/^drag/ {next}
+/^drift/ {next}
+/^fairspin/ {next}
+/^go-game/ {next}
+/^klub/ {next}
+/^kraken/ {next}
+/^livetv[0-9]*\.me$/ {next}
+/^maxbet/ {next}
+/^megamarket/ {next}
+/^moskva-prava/ {next}
+/^pinup/ {next}
+/^pin-up/ {next}
+/^ramen/ {next}
+/^riobet/ {next}
+/^salon/ {next}
+/^sam-poehal/ {next}
+/^schetchik/ {next}
+
 
 length($1) > 30 && !/wixmp/ {next}
 
