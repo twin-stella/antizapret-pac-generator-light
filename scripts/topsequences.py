@@ -94,5 +94,5 @@ with open(sys.argv[2], "w") as awkfile:
 with open(sys.argv[3], "w") as pacfile:
     pacdict = {}
     for i, w in enumerate(finallist):
-        pacdict[wordreplace[i].strip('\\')] = w
+        pacdict[wordreplace[i].replace('\\', '')] = w
     print(pacdict, file=pacfile)
