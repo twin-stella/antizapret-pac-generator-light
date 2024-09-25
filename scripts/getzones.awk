@@ -1,5 +1,3 @@
-@include "config/exclude-regexp-dist.awk"
-
 # Skipping empty strings
 (!$1) {next}
 
@@ -22,6 +20,8 @@
  else
   {$1 = gensub(/(.+)\.([^.]+\.[^.]+$)/, "\\2", 1)}
 }
+
+@include "config/exclude-regexp-dist.awk"
 
 # Sorting domains
 {d_other[$1] = $1}
