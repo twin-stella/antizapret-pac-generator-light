@@ -374,6 +374,29 @@
 /^sam-poehal/ {next}
 /^schetchik/ {next}
 
+/^zorgfilm/ {next}
+/^zooma/ {next}
+/^zetflix/ {next}
+/^zercalo/ {next}
+/^zakaz/ {next}
+/^zagonka/ {next}
+/^xdsakfsad/ {next}
+/^wowofd/ {next}
+/^win/ {next}
+/^will/ {next}
+/^vtrwo/ {next}
+/^vse/ {next}
+/^vremenn/ {next}
+/^vovan/ {next}
+/^voronezh/ {next}
+/^voenkomat/ {next}
+/^vodka/ {next}
+/^v-lord/ {next}
+/^sweet/ {next}
+/^richclub/ {next}
+/^registratsiya/ {next}
+/^official/ {next}
+/^mega5/ {next}
 
 length($1) > 30 && !/wixmp/ {next}
 
