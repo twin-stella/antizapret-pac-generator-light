@@ -404,8 +404,7 @@
 /^888/ {next}
 /^ankustarmios/ {next}
 /^apl/ {next}
-/^azino/ {next}
-/^azino/ {next}
+/azino/ {next}
 /^bio/ {next}
 /^black/ {next}
 /^bonga/ {next}
@@ -416,5 +415,7 @@
 /^bxfilm/ {next}
 /^caburo/ {next}
 
+# Temporary
 length($1) > 30 && !/wixmp/ {next}
 /xn--/ {next}
+/^[0-9]/ {next}
