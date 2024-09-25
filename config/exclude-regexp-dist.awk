@@ -398,5 +398,23 @@
 /^official/ {next}
 /^mega5/ {next}
 
+/^1lord/ {next}
+/^1xlite/ {next}
+/^24/ {next}
+/^888/ {next}
+/^ankustarmios/ {next}
+/^apl/ {next}
+/^azino/ {next}
+/^azino/ {next}
+/^bio/ {next}
+/^black/ {next}
+/^bonga/ {next}
+/^buff/ {next}
+/^bvfusuv/ {next}
+/^bvidks/ {next}
+/^bwospa/ {next}
+/^bxfilm/ {next}
+/^caburo/ {next}
+
 length($1) > 30 && !/wixmp/ {next}
 
