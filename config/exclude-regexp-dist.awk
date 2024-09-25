@@ -417,4 +417,4 @@
 /^caburo/ {next}
 
 length($1) > 30 && !/wixmp/ {next}
-
+/xn--/ {next}
