@@ -415,6 +415,20 @@
 /^bxfilm/ {next}
 /^caburo/ {next}
 
+/^spin/ {next}
+/^spir/ {next}
+/^mebel/ {next}
+/^medkn/ {next}
+/^med-kn/ {next}
+/^magn[ei]t/ {next}
+/^magiksl/ {next}
+/^m3ga/ {next}
+/^luckyjet/ {next}
+/^lucky-jet/ {next}
+/^lordserial/ {next}
+/^lordik/ {next}
+/^lordfilm/ {next}
+
 # Temporary
 length($1) > 30 && !/wixmp/ {next}
 /xn--/ {next}
