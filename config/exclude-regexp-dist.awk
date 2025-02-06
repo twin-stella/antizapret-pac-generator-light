@@ -312,7 +312,7 @@
 /^bbrrigght/ {next}
 /^beer/ {next}
 /^belochka/ {next}
-/^bet/ {next}
+#/^bet/ {next} # https://ntc.party/t/14736
 /^bonus/ {next}
 
 # 25.07.2024
