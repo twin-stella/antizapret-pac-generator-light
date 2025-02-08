@@ -14,3 +14,7 @@ PACFILE_NOSSL="result/proxy-host-nossl.pac"
 
 # Perform DNS resolving to detect and filter non-existent domains
 RESOLVE_NXDOMAIN="no"
+
+# Perform HTTP (port 80)/HTTPS (port 443) reachability test with curl,
+# to detect and filter broken websites
+TEST_WEB_AVAILABILITY="no"

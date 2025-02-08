@@ -31,6 +31,13 @@ then
     awk -f scripts/getzones.awk temp/hostlist_original_with_include.txt | grep -v -F -x -f temp/exclude-hosts.txt | cat - temp/include-hosts.txt | sort -u > result/hostlist_zones.txt
 fi
 
+if [[ "$TEST_WEB_AVAILABILITY" == "yes" ]];
+then
+    timeout 2h parallel --bar -j96 -n1 -a result/hostlist_zones.txt scripts/test-with-curl.sh > temp/web-unreachable-exclude-hosts.txt || true
+    cat temp/web-unreachable-exclude-hosts.txt >> temp/exclude-hosts.txt
+    awk -f scripts/getzones.awk temp/hostlist_original_with_include.txt | grep -v -F -x -f temp/exclude-hosts.txt | cat - temp/include-hosts.txt | sort -u > result/hostlist_zones.txt
+fi
+
 # Generate a list of IP addresses
 awk -F';' '$1 ~ /\// {print $1}' temp/list.csv | grep -P '([0-9]{1,3}\.){3}[0-9]{1,3}\/[0-9]{1,2}' -o | sort -Vu > result/iplist_special_range.txt
 
