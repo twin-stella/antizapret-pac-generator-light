@@ -181,7 +181,7 @@ echo "
 
 echo "
   var curdomain = shost.match(/(.*)\\.([^.]+\$)/);
-  if (!curdomain || !curdomain[2]) {return \"DIRECT\";}
+  if (!curdomain || !curdomain[1]) {return \"DIRECT\";}
   var curhost = curdomain[1];
   var curzone = curdomain[2];
   curhost = patternreplace(curhost, false);
