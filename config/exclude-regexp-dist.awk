@@ -1,3 +1,5 @@
+/livetv\.sx/ {print} # exclusion for the next rules
+
 (/duckdns/) {next}
 (/linode\.com/) {next}
 (/upcloud\.com/) {next}
