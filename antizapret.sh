@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -e
+
+
+response="$(curl -Lf --fail-early --compressed \
+  -H "Accept: application/vnd.github+json" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/repos/twin-stella/antizapret-pac-generator-light/releases/latest
+)"
+
+if command -v jq > /dev/null
+then
+    tag_name="$(echo "$response" | jq -r .tag_name)"
+    download_url="$(echo "$response" | jq -r .assets[0].browser_download_url)"
+else
+    tag_name="$(echo "$response" | awk -F'"' '/"tag_name"/ {print $(NF-1)}')"
+    download_url="$(echo "$response" | awk -F'"' '/"browser_download_url"/ {print $(NF-1)}' | grep '.deb$' | head -n1)"
+fi
+
+installed_version="$(dpkg-query -W -f='${Version}' antizapret-pac-generator)"
+latest_version="${tag_name#v}"
+
+if dpkg --compare-versions "$latest_version" gt "$installed_version"
+then
+    read -r -p 'A new version is available, continue upgrade? [Y/n] ' answer
+
+    case "$answer" in
+        y|Y|yes|'')
+            temp_file="$(mktemp)"
+            # shellcheck disable=SC2064
+            trap "rm -f '$temp_file'" EXIT
+
+            curl -Lf --fail-early --compressed -o "$temp_file" "$download_url"
+            sudo apt update && sudo apt install -y "$temp_file"
+            ;;
+    esac
+fi
+
+exit 0

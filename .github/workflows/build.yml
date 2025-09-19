@@ -1,0 +1,56 @@
+name: Build and Publish deb package
+
+on:
+  push:
+    branches:
+      - feature-deb-package
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v5
+        with:
+          path: repo
+      -
+        name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            debhelper \
+            devscripts
+      -
+        if: github.event_name != 'release'
+        name: Update changelog
+        working-directory: ./repo
+        run: |
+          BASE_VER="$(dpkg-parsechangelog --show-field Version)"
+          SHA='${{ github.sha }}'
+          dch -M -v "${BASE_VER}+git${SHA::7}" "Automated build from CI"
+      -
+        name: Build deb Package
+        working-directory: ./repo
+        run: dpkg-buildpackage -us -uc -b
+      -
+        name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deb-package
+          path: "*.deb"
+          compression-level: 0
+      -
+        if: github.event_name == 'release' && github.event.action == 'published'
+        name: Attach a deb package to a release
+        env:
+          GITHUB_TOKEN: ${{ github.TOKEN }}
+        run: gh release upload ${{github.event.release.tag_name}} *.deb

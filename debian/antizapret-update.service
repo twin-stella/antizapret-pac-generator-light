@@ -1,0 +1,11 @@
+[Unit]
+Description=Antizapret Update
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/usr/share/antizapret-pac-generator
+ExecStart=/usr/share/antizapret-pac-generator/doall.sh
+
+[Install]
+WantedBy=multi-user.target

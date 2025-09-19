@@ -1,0 +1,146 @@
+antizapret-pac-generator (1.0-1) unstable; urgency=medium
+
+  * Initial release
+  * Update: use dump.csv.gz file from z-i
+  * Allow domains beginning with "bet"
+  * New temporary excludes
+  * Exclude all domains starting with the digit for now, to shrink the file size
+  * Exclude all non-latin domains for now, to shrink the file size
+  * Exclude regexp domains after the domain is plain-ified
+  * New excludes
+  * Properly remove ampersand escaping for large topsequence
+  * Add records to exclude list
+  * Add cv.ua to special list
+  * Ensure that nxdomain domains are included only once
+  * Add nichost.ru to special list
+  * Add x.com to the custom dist list
+  * Filter out broken cloudfront.net subdomains, to shrink PAC size
+  * Add 4chan.org into special list
+  * Small fix
+  * Exclude perm.ru
+  * Route x.com to fbtw server
+  * Add rutracker.cc to force-include list (TSPU blocked)
+  * Revert "Skip all domains starting with the number for now, to shrink PAC file size"
+  * unlzp IE6-8 support
+  * Streamable LZP decompression, fit into Firefox 52 heap size
+  * LZP compression for domains
+  * Add sb-cd to special list: https://ntc.party/t/spankbangcom-проксируются-cdn-видео-сервера-из-за-чего-ролики-смотреть-невозможно/6805
+  * Improve topsequence compression algorithm
+  * Skip all domains starting with the number for now, to shrink PAC file size
+  * Skip cyrillic 'bеllonа' from the list
+  * Add narod.ru to the special list
+  * Add hitmotop.com to exclude list: https://ntc.party/t/антизапрет-полностью-блокирует-сайт-hitmosme/6102
+  * Remove archive.org from the list, assume it's not filtered despite being in MinJust list.
+  * Bugfix: quote dot in topsequence awk regex generation
+  * Add bdsmlr.com to the special subdomain list
+  * Exclude baskino from exclude list
+  * New compression feature: replace most common two-character sequences
+  * Filter out more mirror domains
+  * Hotfix for wixmp (Deviantart)
+  * Filter out domains with length > 30 after optimizing zones
+  * Update excluding regexes, exclude more mirrors and garbage sites
+  * Add h1n.ru to the special list
+  * Add rebrand.ly to include-dist (blocked on selected ISPs)
+  * Add 2 hour timeout for nxresolve script, it hangs sometimes
+  * Add mybb2.ru to the special list
+  * Add iboards.ru to the special list
+  * Fix yt3.ggpht.com for nossl list
+  * resolve-dns-nxdomain speed improvement
+  * Add comment of what NS_FILTER_SUBSTRINGS is
+  * Fix high memory usage
+  * Temporary exclude play.google.com from proxy list
+  * Add ggpht.com to the special list. NOTE: only to genpac, not to getzones!
+  * Add tilda.ws to the special list
+  * Add force.com to the special list
+  * Add pythonanywhere.com to the special list
+  * Add wix.com to the special list
+  * Add r.appspot.com to exclude list
+  * Add ampproject.org to the exclude list
+  * Add bizml.ru to exclude list (business mail ru maillist domain)
+  * Add vercel.app to the special list
+  * Remove azureedge and amazonaws from the special array, to fix the excludes
+  * Add maryno.net to special list
+  * Add notion.site to special list
+  * Add itch.io to special list
+  * yt4.ggpht.com is not blocked, remove from special
+  * Adjust exclude-hosts-dist for zones
+  * Exclude *.web.app zone
+  * Move play.google.com and yt[34].ggpht.com to "fbtw" list
+  * Exclude azureedge.net for now
+  * Add azureedge.com into special list
+  * Exclude amazonaws.com from the list
+  * Filter out expired and parked domains in domain resolver
+  * New filters
+  * New alco filters
+  * Add 3nx.ru to special list
+  * TSPU-blocked radiojar.com (Radio Svoboda stream)
+  * Add acf.international (Navalny) to the proxy list (TSPU)
+  * Add "eu.org" zone to special list
+  * Add nnmclub.ch (blocked on TSPU by IP address, Cloudflare)
+  * Add keenetic.pro to special zone list
+  * Add fb.com and messenger.com to the special fb list
+  * Filter appspot.online domains
+  * Remove iwara.tv from a special list
+  * Add bbci.co.uk (TSPU blocked)
+  * Add news.google.com and play.google.com (blocked on TSPU)
+  * Set RESOLVE_NXDOMAIN="no" to comply with AZ Container
+  * Change z-i split from " | " to "|"
+  * Add cdninstagram.com (TSPU blacklist)
+  * Add messenger.com and fb.com (TSPU blacklist)
+  * Final fix for zerkalo.io
+  * Fix exclude-regexp rules
+  * Another fix, damn it
+  * Fix 1bbdbdbe4d53ab96eef959042664bc914d46075f
+  * Exclude zerkalo.io from "zerkalo" filtering regexp
+  * Add instagram to the list of special sites
+  * Add theins.ru - blocked only on TSPU
+  * Remove nossl proxy from Facebook/Twitter
+  * Add Facebook and Twitter special proxy server
+  * Add out-of-registry TSPU Twitter t.co and twimg.com domains
+  * Add out-of-registry TSPU Facebook fbcdn.net domain
+  * Manually revert 91b2584845c95626e3595de67a5e45ba0667bf7e
+  * Exclude 81.17.19.227 from ignored hosts by IP (used by flibusta.is)
+  * Add 103.224.212.222 parked domain address
+  * Exclude hosts by their IP addresses in the Registry
+  * Enforce CHARSET=UTF-8 for idn
+  * Update exlude-regexps
+  * Add compression note by ilyaigpetrov request
+  * Add u-stream.in into special list
+  * Add hack for olimp-tv.org
+  * Add "hopto.org" to special list
+  * Revert "Remove all excludes for deviantart.com"
+  * Remove all excludes for deviantart.com
+  * Remove pixiv.net from ignore list (added to Registry as https https://reestr.rublacklist.net/record/3411314/)
+  * Add "github" to special list (torvdn.github.io blacklist)
+  * Add pximg.net to SPECIAL list
+  * Remove iwara.tv from excludes and add it to special. https://ntc.party/t/topic/668/
+  * Add trafficmanager.net into special list
+  * Add edgecastcdn.net into special list
+  * Add berlogovo.ru to special zone, https://ntc.party/t/ip/841
+  * Add new ignored domains and update special zones
+  * Do not resolve IPv4/v6 addresses to prevent slowdown
+  * Add netdna-ssl.com into special list
+  * Remove 33a-5536/2019 filtering (Telegram, obsolete) and add 33-4/2018 IP filtering-out
+  * Add DeviantArt's wixmp[.com] to special zones list
+  * Remove too broad regexp "777"
+  * NXDOMAIN script: do not thread domain as broken if the answer is empty
+  * Implement NXDOMAIN resolving and filtering
+  * Add www.deviantart.com to ignore list, try 2
+  * Revert "Add www.deviantart.com to ignore list."
+  * Add www.deviantart.com to ignore list.
+  * Add pixiv.net and iwara.tv to ignore list.
+  * Sync older uncommited changes from the server
+  * Remove leading www. for domain in the PAC file.
+  * Update forgotten special domain zones.
+  * Update dist blocked hosts
+  * Handle special DNS zones only by their full blocked domain, not by third level domain
+  * Exclude local IP addresses from being added into the list
+  * Update force-included hosts to be proxified
+  * Add fastly into domain zone level exception list
+  * Parse cyrillic domain names
+  * Add 1xbet into proxy list
+  * Add exit 0 to the end of the script to prevent last exit code from being used
+  * Move initialization code into runtime, to fix out-of-memory issue
+  * Update site list
+
+ -- Anticensority <devnull@localhost>  Sat, 20 Sep 2025 21:01:39 +0300

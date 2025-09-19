@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+set -e
+
+TOOL_DIR=/usr/share/antizapret-pac-generator
+CONFIG_DIR=/etc/antizapret-pac-generator
+
+
+if [ "$1" = 'configure' ]
+then
+    mkdir -p "$CONFIG_DIR" "$TOOL_DIR/result" "$TOOL_DIR/temp"
+    test -L "$TOOL_DIR/config" || ln -s "$CONFIG_DIR" "$TOOL_DIR/config"
+    test -n "$(find "$CONFIG_DIR" -mindepth 1 -maxdepth 1)" || cp "$TOOL_DIR"/config-default/* "$CONFIG_DIR/"
+    test -L /usr/local/bin/antizapret || ln -s "$TOOL_DIR/antizapret.sh" /usr/local/bin/antizapret
+fi
+
+#DEBHELPER#
+
+exit 0
