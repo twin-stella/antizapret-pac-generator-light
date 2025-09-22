@@ -5,9 +5,5 @@ Priority: optional
 
 Package: antizapret-pac-generator
 Architecture: all
-Depends: coreutils, curl, gawk, idn, python3 (>=3.6), python3-dnslib, sipcalc
+Depends: coreutils, curl, dnsutils, gawk, idn, python3 (>=3.6), python3-dnslib, sipcalc
 Description: PAC file generator for the AntiZapret service
- This set of scripts creates a proxy auto-configuration (PAC) file
- containing a list of websites blocked within the Russian Federation
- by Roskomnadzor and other government authorities,
- which can be used in browsers to automatically proxy blocked resources

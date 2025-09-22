@@ -2,11 +2,9 @@ name: Build and Publish deb package
 
 on:
   push:
-    branches:
-      - feature-deb-package
+    branches: [ dev-master ]
   release:
-    types:
-      - published
+    types: [ published ]
   workflow_dispatch:
 
 permissions:
@@ -51,6 +49,7 @@ jobs:
       -
         if: github.event_name == 'release' && github.event.action == 'published'
         name: Attach a deb package to a release
+        working-directory: ./repo
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
-        run: gh release upload ${{github.event.release.tag_name}} *.deb
+        run: gh release upload ${{ github.event.release.tag_name }} ../*.deb

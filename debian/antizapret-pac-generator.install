@@ -1,0 +1,17 @@
+antizapret usr/sbin
+
+defaults usr/share/antizapret-pac-generator
+generate-pac.sh usr/share/antizapret-pac-generator
+parse.sh usr/share/antizapret-pac-generator
+scripts usr/share/antizapret-pac-generator
+update.sh usr/share/antizapret-pac-generator
+
+config/*-dist.* usr/share/antizapret-pac-generator/config
+
+config/config.sh usr/share/antizapret-pac-generator/defaults/config
+doall.sh usr/share/antizapret-pac-generator/defaults
+process.sh usr/share/antizapret-pac-generator/defaults
+update.d usr/share/antizapret-pac-generator/defaults
+
+debian/antizapret-update.service lib/systemd/system
+debian/antizapret-update.timer lib/systemd/system

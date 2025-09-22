@@ -1,5 +1,0 @@
-config/* usr/share/antizapret-pac-generator/config-default
-scripts usr/share/antizapret-pac-generator/
-*.sh usr/share/antizapret-pac-generator/
-debian/antizapret-update.service lib/systemd/system/
-debian/antizapret-update.timer lib/systemd/system/

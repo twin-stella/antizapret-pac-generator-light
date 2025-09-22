@@ -2,7 +2,7 @@
 set -e
 
 
-response="$(curl -Lf --fail-early --compressed \
+response="$(curl -sLf --fail-early --compressed \
   -H "Accept: application/vnd.github+json" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/repos/twin-stella/antizapret-pac-generator-light/releases/latest
@@ -26,14 +26,16 @@ then
 
     case "$answer" in
         y|Y|yes|'')
-            temp_file="$(mktemp)"
+            temp_file="$(mktemp --suffix .deb)"
             # shellcheck disable=SC2064
             trap "rm -f '$temp_file'" EXIT
 
             curl -Lf --fail-early --compressed -o "$temp_file" "$download_url"
-            sudo apt update && sudo apt install -y "$temp_file"
+            apt update && apt install -y "$temp_file"
             ;;
     esac
+else
+    echo 'The latest version is already installed.'
 fi
 
 exit 0
