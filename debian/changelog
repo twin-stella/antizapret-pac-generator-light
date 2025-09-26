@@ -1,3 +1,15 @@
+antizapret-pac-generator (1.1-1) unstable; urgency=medium
+
+  * Remove itch.io from the subdomain special list—it has been blocked completely
+  * Include livetv.sx, prevent its exclusion
+  * Add gr-assets.com to force-include list (root does not respond to the requests, but i.gr-assets.com works)
+  * Exclude fandom.com from zone simplifying
+  * Check curdomain[1] in regexp match sanity instead of curdomain[2], which could not be null
+  * New function: test reachability with curl
+  * Parse: always force-include custom hosts to the list, regardless of reachability
+
+ -- Anticensority <devnull@localhost>  Fri, 26 Sep 2025 20:51:46 +0300
+
 antizapret-pac-generator (1.0-1) unstable; urgency=medium
 
   * Initial release
