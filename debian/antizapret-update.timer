@@ -1,0 +1,8 @@
+[Unit]
+Description=Run Antizapret Update every 6h
+
+[Timer]
+OnUnitActiveSec=6h
+
+[Install]
+WantedBy=timers.target

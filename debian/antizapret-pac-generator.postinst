@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+set -e
+
+CONFIG_DIR=/etc/antizapret-pac-generator
+DATA_DIR=/usr/local/share/antizapret-pac-generator
+TOOL_DIR=/usr/share/antizapret-pac-generator
+
+
+if [ "$1" = 'configure' ]
+then
+    mkdir -p "$CONFIG_DIR" "$DATA_DIR/update.d" "$DATA_DIR/result" "$DATA_DIR/temp"
+
+    cp -n "$TOOL_DIR/defaults/config/config.sh" "$CONFIG_DIR/"
+    test -f "$CONFIG_DIR/exclude-hosts-custom.txt" || touch "$CONFIG_DIR/exclude-hosts-custom.txt"
+    test -f "$CONFIG_DIR/exclude-ips-custom.txt" || touch "$CONFIG_DIR/exclude-ips-custom.txt"
+    test -f "$CONFIG_DIR/include-hosts-custom.txt" || touch "$CONFIG_DIR/include-hosts-custom.txt"
+    test -f "$CONFIG_DIR/include-ips-custom.txt" || touch "$CONFIG_DIR/include-ips-custom.txt"
+
+    cp -n "$TOOL_DIR/defaults/doall.sh" \
+          "$TOOL_DIR/defaults/process.sh" \
+          "$DATA_DIR/"
+    cp -ns "$TOOL_DIR"/defaults/update.d/* "$DATA_DIR/update.d/"
+
+    cp -ns "$CONFIG_DIR"/* "$TOOL_DIR/config/"
+    cp -nl "$DATA_DIR/doall.sh" \
+           "$DATA_DIR/process.sh" \
+           "$TOOL_DIR/"
+    test -L "$TOOL_DIR/result" || ln -s "$DATA_DIR/result" "$TOOL_DIR/result"
+    test -L "$TOOL_DIR/temp" || ln -s "$DATA_DIR/temp" "$TOOL_DIR/temp"
+    test -L "$TOOL_DIR/update.d" || ln -s "$DATA_DIR/update.d" "$TOOL_DIR/update.d"
+fi
+
+#DEBHELPER#
+
+exit 0

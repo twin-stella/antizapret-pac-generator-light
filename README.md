@@ -1,17 +1,18 @@
-Russian PAC file generator, light version
-=========================================
+# Russian PAC file generator, light version
 
-Генератор PAC-файла сервиса [АнтиЗапрет](https://antizapret.prostovpn.org/).
+Generator of PAC files for the [AntiZapret](https://antizapret.prostovpn.org/) service.
 
-Данный набор скриптов создаёт файл [автоконфигурации прокси](https://en.wikipedia.org/wiki/Proxy_auto-config) со списком сайтов, заблокированных на территории Российской Федерации Роскомнадзором и другими государственными органами, который можно использовать в браузерах, для автоматического проксирования заблокированных ресурсов.
+This collection of scripts creates a proxy [auto-configuration](https://en.wikipedia.org/wiki/Proxy_auto-config) file
+containing a list of websites blocked in the territory of the Russian Federation by Roskomnadzor and other state authorities.
+The PAC file can be used in browsers to automatically proxy blocked resources.
 
-Помимо основного назначения скрипта (генерации PAC-файла), он также умеет создавать:
+In addition to its primary purpose, it can also create:
 
-* Файл клиентской конфигурации (client-config, CCD) с заблокированными диапазонами IP-адресов для OpenVPN;
-* Файл с заблокированными доменными зонами для Squid;
-* Файл с заблокированными доменными зонами в LUA-переменной, для использования с DNS-резолвером knot-resolver.
+* A client configuration file (client-config, CCD) with blocked IP address ranges for OpenVPN;
+* A file with blocked domain zones for Squid;
+* A file with blocked domain zones in a LUA variable, for use with the knot-resolver DNS resolver.
 
-### Зависимости
+### Dependencies
 
 * Bash
 * cURL
@@ -22,13 +23,33 @@ Russian PAC file generator, light version
 * Python 3.6+
 * dnspython 2.0.0+
 
-### Конфигурационные файлы
+### Configuration Files
 
-* **{in,ex}clude-{hosts,ips}-dist** — конфигурация дистрибутива, предназначена для изменения автором репозитория;
-* **{in,ex}clude-{hosts,ips}-custom** — пользовательская конфигурация, предназначена для изменения конечным пользователем скрипта;
-* **exclude-regexp-dist.awk** — файл с различным заблокированным «мусором», раздувающим PAC-файл: зеркалами сайтов, неработающими сайтами, и т.д.
-* **config.sh** — файл с адресами прокси и прочей конфигурацией.
+* `{in,ex}clude-{hosts,ips}-dist` - distribution configuration, intended to be modified by the repository author;
+* `{in,ex}clude-{hosts,ips}-custom` - user configuration, intended to be modified by the end user of the script;
+* `exclude-regexp-dist.awk` - file with various blocked "junk" that bloats the PAC file:
+  site mirrors, non-working websites, etc.;
+* `config.sh` - file with proxy addresses and other configuration.
 
-### Установка и запуск
+### Installation and usage
 
-Склонируйте git-репозиторий, отредактируйте **config/config.sh**, **doall.sh** и **process.sh** под собственные нужды, запустите **doall.sh**.
+#### Debian/Ubuntu
+
+Download the deb package from the release page and install it.
+
+```shell
+wget -qO- https://api.github.com/repos/twin-stella/antizapret-pac-generator-light/releases/latest |\
+    awk -F'"' '/"browser_download_url"/ {print $(NF-1)}' |\
+    grep '.deb$' |\
+    wget -q -i- --show-progress
+sudo apt install antizapret-pac-generator*.deb
+
+Edit `/etc/antizapret-pac-generator/config.sh`, `/usr/local/share/antizapret-pac-generator/doall.sh`,
+and `/usr/local/share/antizapret-pac-generator/process.sh` to fit your needs,
+then run `/usr/local/share/antizapret-pac-generator/doall.sh`.
+
+```
+
+#### Other
+
+Clone the git repository, edit `config/config.sh`, `doall.sh`, and `process.sh` to fit your needs, then run `doall.sh`.

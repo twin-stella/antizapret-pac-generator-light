@@ -1,0 +1,9 @@
+Source: antizapret-pac-generator
+Maintainer: Anticensority <devnull@localhost>
+Section: utils
+Priority: optional
+
+Package: antizapret-pac-generator
+Architecture: all
+Depends: coreutils, curl, dnsutils, gawk, idn, python3 (>=3.6), python3-dnslib, sipcalc
+Description: PAC file generator for the AntiZapret service

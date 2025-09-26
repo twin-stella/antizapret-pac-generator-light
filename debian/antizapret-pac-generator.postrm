@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+set -e
+
+CONFIG_DIR=/etc/antizapret-pac-generator
+DATA_DIR=/usr/local/share/antizapret-pac-generator
+TOOL_DIR=/usr/share/antizapret-pac-generator
+
+if [ "$1" = 'remove' ]
+then
+    find "$DATA_DIR" -xtype l -delete
+    rm -rf "$TOOL_DIR/config" \
+           "$TOOL_DIR/doall.sh" \
+           "$TOOL_DIR/process.sh" \
+           "$TOOL_DIR/result" \
+           "$TOOL_DIR/temp" \
+           "$TOOL_DIR/update.d"
+fi
+
+if [ "$1" = 'purge' ]
+then
+		rm -rf "$CONFIG_DIR" "$DATA_DIR"
+fi
+
+#DEBHELPER#
+
+exit 0

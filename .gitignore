@@ -1,0 +1,11 @@
+.idea/
+build/
+result/
+temp/
+!.gitkeep
+
+# deb package build
+*debhelper*
+debian/*.substvars
+debian/antizapret-pac-generator/
+debian/files
