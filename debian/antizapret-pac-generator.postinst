@@ -22,7 +22,7 @@ then
     cp -ns "$TOOL_DIR"/defaults/update.d/* "$DATA_DIR/update.d/"
 
     cp -ns "$CONFIG_DIR"/* "$TOOL_DIR/config/"
-    cp -nl "$DATA_DIR/doall.sh" \
+    cp -ns "$DATA_DIR/doall.sh" \
            "$DATA_DIR/process.sh" \
            "$TOOL_DIR/"
     test -L "$TOOL_DIR/result" || ln -s "$DATA_DIR/result" "$TOOL_DIR/result"

@@ -1,3 +1,9 @@
+antizapret-pac-generator (1.1-2) unstable; urgency=medium
+
+  * Fix symlinks
+
+ -- Anticensority <devnull@localhost>  Thu, 02 Oct 2025 16:56:34 +0300
+
 antizapret-pac-generator (1.1-1) unstable; urgency=medium
 
   * Remove itch.io from the subdomain special list—it has been blocked completely

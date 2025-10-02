@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-HERE="$(dirname "$(readlink -f "${0}")")"
+HERE="$(dirname "${BASH_SOURCE[0]}")"
 cd "$HERE"
 
 ./update.sh
